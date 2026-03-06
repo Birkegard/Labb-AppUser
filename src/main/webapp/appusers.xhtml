@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="jakarta.faces.core"
+      xmlns:h="jakarta.faces.html" xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view>
+    <h:head></h:head>
+    <h:body>
+
+        <h:form>
+            Username: <h:inputText value="#{appUserBean.username}"/> <br/>
+            Password: <h:inputSecret value="#{appUserBean.password}"/> <br/>
+            <h:commandButton value="Save" action="#{appUserBean.saveUser()}"/>
+        </h:form>
+        <ui:repeat value="#{appUserBean.allUsers}" var="user">
+            <p>#{user.id}, #{user.username}</p>
+        </ui:repeat>
+    </h:body>
+</f:view>
+</html>

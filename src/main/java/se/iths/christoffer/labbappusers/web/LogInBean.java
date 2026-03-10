@@ -1,6 +1,8 @@
 package se.iths.christoffer.labbappusers.web;
 
-import jakarta.faces.view.ViewScoped;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import lombok.Getter;
@@ -11,7 +13,7 @@ import se.iths.christoffer.labbappusers.service.AppUserService;
 import java.io.Serializable;
 
 @Named
-@ViewScoped
+@SessionScoped
 public class LogInBean implements Serializable {
     private static final Long serialVersionUID = 1L;
     @Inject
@@ -23,7 +25,15 @@ public class LogInBean implements Serializable {
     @Getter
     private String password;
 
-    public void logIn() {
-        appUserService.saveUser(new AppUser(username, password));
+    public String logIn() {
+        AppUser user = appUserService.findUser(username, password);
+        if (user != null) {
+            return "messages";
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "Wrong username and/or password", null));
+            return "login";
+        }
     }
 }

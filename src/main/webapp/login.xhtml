@@ -4,8 +4,19 @@
       xmlns:f="jakarta.faces.core"
       xmlns:h="jakarta.faces.html">
 <f:view>
-    <h:head></h:head>
+    <h:head>LogIn</h:head>
     <h:body>
+
+        <h:form>
+            <h:messages errorStyle="color: red; font-weight: bold;"/>
+            Username: <h:inputText id="username" value="#{logInBean.username}" required="true"
+                                   requiredMessage="Field can't be empty!"/><br/>
+            <h:message for="username" style="color:red"/><br/>
+            Password: <h:inputSecret id="password" value="#{logInBean.password}" required="true"
+                                     requiredMessage="Field can't be empty!"/><br/>
+            <h:message for="password" style="color: red"/><br/>
+            <h:commandButton value="LogIn" action="#{logInBean.logIn()}"/>
+        </h:form>
 
     </h:body>
 </f:view>

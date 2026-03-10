@@ -1,13 +1,15 @@
 package se.iths.christoffer.labbappusers.repository;
 
-import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import se.iths.christoffer.labbappusers.entity.AppUser;
 
 import java.util.List;
 
-@ApplicationScoped
+@RequestScoped
 public class AppUserJpaRepository implements AppUserRepository {
     @PersistenceContext(unitName = "neon_database_appuser")
     private EntityManager entityManager;
@@ -22,5 +24,19 @@ public class AppUserJpaRepository implements AppUserRepository {
     public List<AppUser> findAllUsers() {
         return entityManager.createQuery(
                 "SELECT m FROM AppUser m", AppUser.class).getResultList();
+    }
+
+    @Override
+    public AppUser findUser(String username, String password) {
+        TypedQuery<AppUser> query = entityManager.createQuery(
+                "SELECT u FROM AppUser u WHERE u.username = :username AND u.password = :password",
+                AppUser.class);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="sv"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <meta charset="utf-8"/>
+    <title>Websocket-klient</title>
+</head>
+<body>
+<h1>Websocket-klient</h1>
+
+<div>
+    Status:<span id="status">DISCONNECTED</span>
+</div>
+
+<div>
+    <input id="input" type="text" placeholder="Type your message..."/>
+    <button id="sendBtn">Send</button>
+</div>
+
+<div>
+    <button id="disconnectedBtn">Log out</button>
+</div>
+
+<pre id="log"></pre>
+
+<script>
+    const statusEl = document.getElementById("status");
+    const logEl = document.getElementById("log");
+    const wsUrl = "ws://localhost:8080/webSocketServer/ws/chat";
+    const socket = new WebSocket(wsUrl);
+
+    socket.addEventListener("open", () => {
+        statusEl.textContent = "CONNECTED";
+        logEl.textContent += "Connected\n";
+    });
+
+    socket.addEventListener("message", (event) => {
+        logEl.textContent += event.data + "\n";
+    });
+
+    const inputEl = document.getElementById("input");
+    const sendBtn = document.getElementById("sendBtn");
+
+    sendBtn.addEventListener("click", () => {
+        const msg = inputEl.value;
+        if (!msg) return;
+
+        socket.send(msg);
+        inputEl.value = "";
+    });
+
+    socket.addEventListener("close", () => {
+        statusEl.textContent = "DISCONNECTED";
+        logEl.textContent += "Disconnected\n";
+    });
+
+    socket.addEventListener("error", () => {
+        statusEl.textContent = "ERROR";
+        logEl.textContent += "Error occured\n";
+    });
+
+    const disconnectedBtn = document.getElementById("disconnectedBtn");
+
+    disconnectedBtn.addEventListener("click", () => {
+        socket.close();
+        logEl.textContent += "Successful logout.\n";
+    });
+
+    disconnectedBtn.addEventListener("click", () => {
+        socket.close();
+        window.location.href = "login.xhtml";
+    });
+</script>
+</body>
+</html>

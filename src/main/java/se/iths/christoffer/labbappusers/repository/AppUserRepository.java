@@ -8,4 +8,6 @@ public interface AppUserRepository {
     AppUser saveUser(AppUser user);
 
     List<AppUser> findAllUsers();
+
+    AppUser findUser(String username, String password);
 }

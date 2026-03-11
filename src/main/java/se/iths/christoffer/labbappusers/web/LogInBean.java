@@ -36,4 +36,21 @@ public class LogInBean implements Serializable {
             return "login";
         }
     }
+
+    public boolean isLoggedIn() {
+        return username != null;
+    }
+
+    public String checkAccess() {
+        if (!isLoggedIn()) {
+            return "login?faces-redirect=true";
+        } else {
+            return null;
+        }
+    }
+
+    public String logOut() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login?faces-redirect=true";
+    }
 }

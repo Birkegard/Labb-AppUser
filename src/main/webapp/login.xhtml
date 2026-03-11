@@ -17,7 +17,9 @@
             <h:message for="password" style="color: red"/><br/>
             <h:commandButton value="LogIn" action="#{logInBean.logIn()}"/>
         </h:form>
-
+        <h:form>
+            <h:commandButton value="Register user" action="appusers?faces-redirect=true"/>
+        </h:form>
     </h:body>
 </f:view>
 </html>

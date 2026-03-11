@@ -5,7 +5,7 @@
       xmlns:h="jakarta.faces.html" xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 <f:view>
-    <h:head></h:head>
+    <h:head>Registrera användare</h:head>
     <h:body>
 
         <h:form id="userForm">
@@ -16,6 +16,10 @@
                                      required="true"/>
             <h:message for="password"/><br/>
             <p:commandButton value="Save" action="#{appUserBean.saveUser()}" update="@form userList"/>
+        </h:form>
+
+        <h:form>
+            <p:commandButton value="To ChatApp" action="login?faces-redirect=true"/>
         </h:form>
 
         <h:panelGroup id="userList">

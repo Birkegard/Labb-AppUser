@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html lang="sv"
       xmlns="http://www.w3.org/1999/xhtml"
->
+      xmlns:f="jakarta.faces.core" xmlns:h="http://java.sun.com/jsf/html">
 <head>
     <meta charset="utf-8"/>
-    <title>Websocket-klient</title>
+    <title>CHATAPP</title>
 </head>
 <body>
-<h1>Websocket-klient</h1>
+
+<f:metadata>
+    <f:viewAction action="#{logInBean.checkAccess()}" onPostback="false"/>
+</f:metadata>
+<h1>CHATAPP</h1>
 
 <div>
-    Status:<span id="status">DISCONNECTED</span>
+    Inloggad som: <strong>#{logInBean.username}</strong>
+</div>
+
+<div>
+    Status: <span id="status">DISCONNECTED</span>
 </div>
 
 <div>
@@ -19,7 +27,9 @@
 </div>
 
 <div>
-    <button id="disconnectedBtn">Log out</button>
+    <h:form>
+        <h:commandButton value="Log out" action="#{logInBean.logOut()}"/>
+    </h:form>
 </div>
 
 <pre id="log"></pre>
@@ -65,12 +75,9 @@
     disconnectedBtn.addEventListener("click", () => {
         socket.close();
         logEl.textContent += "Successful logout.\n";
-    });
-
-    disconnectedBtn.addEventListener("click", () => {
-        socket.close();
         window.location.href = "login.xhtml";
     });
+
 </script>
 </body>
 </html>

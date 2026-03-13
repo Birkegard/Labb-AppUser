@@ -1,9 +1,9 @@
 package se.iths.christoffer.labbappusers.repository;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import se.iths.christoffer.labbappusers.entity.AppUser;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 @RequestScoped
 public class AppUserJpaRepository implements AppUserRepository {
-    @PersistenceContext(unitName = "neon_database_appuser")
+    @Inject
     private EntityManager entityManager;
 
     @Override

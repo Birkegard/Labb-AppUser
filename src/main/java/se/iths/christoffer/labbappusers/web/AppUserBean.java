@@ -31,5 +31,6 @@ public class AppUserBean implements Serializable {
     public void saveUser() {
         appUserService.saveUser(new AppUser(username, password));
         username = "";
+        password = "";
     }
 }

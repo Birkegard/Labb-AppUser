@@ -5,6 +5,7 @@ import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.Setter;
 import se.iths.christoffer.labbappusers.entity.AppUser;
@@ -28,7 +29,7 @@ public class LogInBean implements Serializable {
     public String logIn() {
         AppUser user = appUserService.findUser(username, password);
         if (user != null) {
-            return "messages";
+            return "messages?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -50,7 +51,11 @@ public class LogInBean implements Serializable {
     }
 
     public String logOut() {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+
+        if (session != null) {
+            session.invalidate();
+        }
         return "login?faces-redirect=true";
     }
 }
